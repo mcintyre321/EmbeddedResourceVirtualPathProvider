@@ -1,0 +1,32 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EmbeddedResourceVirtualPathProvider", "EmbeddedResourceVirtualPathProvider\EmbeddedResourceVirtualPathProvider.csproj", "{6298C7D0-B42C-4014-B5DF-E2A871832A3F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestWebProject", "TestWebProject\TestWebProject.csproj", "{9A0094B7-E767-48FA-84F1-9CD2DD73CEC3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestResourceLibrary", "TestResourceLibrary\TestResourceLibrary.csproj", "{F220C6EC-A85F-41C4-BA6E-C92921DE318F}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{6298C7D0-B42C-4014-B5DF-E2A871832A3F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6298C7D0-B42C-4014-B5DF-E2A871832A3F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6298C7D0-B42C-4014-B5DF-E2A871832A3F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6298C7D0-B42C-4014-B5DF-E2A871832A3F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9A0094B7-E767-48FA-84F1-9CD2DD73CEC3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9A0094B7-E767-48FA-84F1-9CD2DD73CEC3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9A0094B7-E767-48FA-84F1-9CD2DD73CEC3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9A0094B7-E767-48FA-84F1-9CD2DD73CEC3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F220C6EC-A85F-41C4-BA6E-C92921DE318F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F220C6EC-A85F-41C4-BA6E-C92921DE318F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F220C6EC-A85F-41C4-BA6E-C92921DE318F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F220C6EC-A85F-41C4-BA6E-C92921DE318F}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
