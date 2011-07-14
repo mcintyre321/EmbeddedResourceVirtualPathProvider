@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestWebProject", "TestWebPr
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestResourceLibrary", "TestResourceLibrary\TestResourceLibrary.csproj", "{F220C6EC-A85F-41C4-BA6E-C92921DE318F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NugetTestWebProject", "NugetTestWebProject\NugetTestWebProject.csproj", "{03165E98-56F6-48B5-9D13-0CDB5FA69B26}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -25,6 +27,10 @@ Global
 		{F220C6EC-A85F-41C4-BA6E-C92921DE318F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F220C6EC-A85F-41C4-BA6E-C92921DE318F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F220C6EC-A85F-41C4-BA6E-C92921DE318F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{03165E98-56F6-48B5-9D13-0CDB5FA69B26}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{03165E98-56F6-48B5-9D13-0CDB5FA69B26}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{03165E98-56F6-48B5-9D13-0CDB5FA69B26}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{03165E98-56F6-48B5-9D13-0CDB5FA69B26}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

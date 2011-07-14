@@ -22,7 +22,7 @@ namespace EmbeddedResourceVirtualPathProvider
                     return;
                 }
             }
-            GetCacheDependency = (utcStart) => null;
+            GetCacheDependency = (utcStart) => new CacheDependency(assembly.Location);
             GetStream = () => assembly.GetManifestResourceStream(resourcePath);
         }
 

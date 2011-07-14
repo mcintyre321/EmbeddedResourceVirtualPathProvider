@@ -1,0 +1,1 @@
+﻿alert("alert2.js from TestWebProject - overrides the referenced assembly")

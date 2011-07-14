@@ -13,8 +13,9 @@ namespace EmbeddedResourceVirtualPathProvider
     {
         readonly IDictionary<string, EmbeddedResource> resources = new Dictionary<string, EmbeddedResource>();
 
-        public Vpp()
+        public Vpp(params Assembly[] assemblies)
         {
+            Array.ForEach(assemblies, a => Add(a));
         }
 
         public void Add(Assembly assembly, string projectSourcePath = null)
@@ -51,9 +52,9 @@ namespace EmbeddedResourceVirtualPathProvider
 
         public override CacheDependency GetCacheDependency(string virtualPath, IEnumerable virtualPathDependencies, DateTime utcStart)
         {
+            if (base.FileExists(virtualPath)) return base.GetCacheDependency(virtualPath, virtualPathDependencies, utcStart);
             var resource = GetResourceFromVirtualPath(virtualPath);
             if (resource != null) return resource.GetCacheDependency(utcStart);
-            
             return base.GetCacheDependency(virtualPath, virtualPathDependencies, utcStart);
         }
 
