@@ -34,7 +34,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="EmbeddedResourceVirtualPathProvider, Version=1.0.4212.38970, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\EmbeddedResourceVirtualPathProvider.1.1.7\lib\net40\EmbeddedResourceVirtualPathProvider.dll</HintPath>
+      <HintPath>..\packages\EmbeddedResourceVirtualPathProvider.1.1.8\lib\net40\EmbeddedResourceVirtualPathProvider.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Web.DynamicData" />
@@ -52,9 +52,6 @@
     <Reference Include="System.Configuration" />
     <Reference Include="System.Web.Services" />
     <Reference Include="System.EnterpriseServices" />
-    <Reference Include="WebActivator">
-      <HintPath>..\packages\WebActivator.1.4.1\lib\net40\WebActivator.dll</HintPath>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="alert2.js" />

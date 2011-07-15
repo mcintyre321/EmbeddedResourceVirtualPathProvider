@@ -1,7 +1,5 @@
 using System.Reflection;
 using System.Linq;
-using TestResourceLibrary;
-
 namespace NugetTestWebProject.App_Code
 {
     public class RegisterVirtualPathProvider
@@ -16,7 +14,7 @@ namespace NugetTestWebProject.App_Code
             {
 				//you can do a specific assembly registration too. If you provide the assemly source path, it can read
 				//from the source file so you can change the content while the app is running without needing to rebuild
-				{typeof(Marker).Assembly, @"..\TestResourceLibrary"} 
+				//{typeof(SomeAssembly.SomeClass).Assembly, @"..\SomeAssembly"} 
             });
         }
     }
