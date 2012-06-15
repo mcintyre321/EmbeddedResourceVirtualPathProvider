@@ -31,14 +31,27 @@ namespace EmbeddedResourceVirtualPathProvider
 
         string GetFileNameFromProjectSourceDirectory(Assembly assembly, string resourcePath, string projectSourcePath)
         {
-            if (!Path.IsPathRooted(projectSourcePath))
+            try
             {
-                projectSourcePath = new DirectoryInfo((Path.Combine(HttpRuntime.AppDomainAppPath, projectSourcePath))).FullName;
-            }
-            var fileName = Path.Combine(projectSourcePath, resourcePath.Substring(assembly.GetName().Name.Length + 1).Replace('.', '\\'));
-                
+                if (!Path.IsPathRooted(projectSourcePath))
+                {
+                    projectSourcePath =
+                        new DirectoryInfo((Path.Combine(HttpRuntime.AppDomainAppPath, projectSourcePath))).FullName;
+                }
+                var fileName = Path.Combine(projectSourcePath,
+                                            resourcePath.Substring(assembly.GetName().Name.Length + 1).Replace('.', '\\'));
 
-            return GetFileName(fileName);
+
+                return GetFileName(fileName);
+            }
+            catch (Exception ex)
+            {
+#if DEBUG
+                throw;
+#endif
+                Logger.LogWarning("Error reading source files", ex);
+                return null;
+            }
         }
 
         string GetFileName(string possibleFileName)

@@ -46,6 +46,7 @@
   <ItemGroup>
     <Compile Include="EmbeddedResource.cs" />
     <Compile Include="EmbeddedResourceVirtualFile.cs" />
+    <Compile Include="Logger.cs" />
     <Compile Include="Vpp.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

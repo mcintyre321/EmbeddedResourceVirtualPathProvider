@@ -12,3 +12,4 @@ _ReSharper.*
 ~$*
 *.ReSharper.user
 *.sln.docstates
+*.user
