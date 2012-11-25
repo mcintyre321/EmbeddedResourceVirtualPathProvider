@@ -1,6 +1,6 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 11.00
-# Visual Studio 2010
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EmbeddedResourceVirtualPathProvider", "EmbeddedResourceVirtualPathProvider\EmbeddedResourceVirtualPathProvider.csproj", "{6298C7D0-B42C-4014-B5DF-E2A871832A3F}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestWebProject", "TestWebProject\TestWebProject.csproj", "{9A0094B7-E767-48FA-84F1-9CD2DD73CEC3}"
