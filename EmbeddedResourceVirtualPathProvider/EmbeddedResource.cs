@@ -7,10 +7,12 @@ using System.Web.Caching;
 
 namespace EmbeddedResourceVirtualPathProvider
 {
-    class EmbeddedResource
+    public class EmbeddedResource
     {
         public EmbeddedResource(Assembly assembly, string resourcePath, string projectSourcePath)
         {
+            this.Assembly = assembly;
+            this.ResourcePath = resourcePath;
             if (!string.IsNullOrWhiteSpace(projectSourcePath))
             {
                 var filename = GetFileNameFromProjectSourceDirectory(assembly, resourcePath, projectSourcePath);
@@ -25,6 +27,10 @@ namespace EmbeddedResourceVirtualPathProvider
             GetCacheDependency = (utcStart) => new CacheDependency(assembly.Location);
             GetStream = () => assembly.GetManifestResourceStream(resourcePath);
         }
+
+        public string ResourcePath { get; private set; }
+
+        public Assembly Assembly { get; set; }
 
         public Func<Stream> GetStream { get; private set; }
         public Func<DateTime, CacheDependency> GetCacheDependency { get; private set; }
