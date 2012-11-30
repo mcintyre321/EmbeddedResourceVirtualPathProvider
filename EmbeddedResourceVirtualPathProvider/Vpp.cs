@@ -17,14 +17,12 @@ namespace EmbeddedResourceVirtualPathProvider
         {
             Array.ForEach(assemblies, a => Add(a));
             UseResource = er => true;
-            VaryCacheKey = (vp, key, resource) => key;
             UseLocalIfAvailable = resource => true;
         }
 
         public Func<EmbeddedResource, bool> UseResource { get; set; }
         public Func<EmbeddedResource, bool> UseLocalIfAvailable { get; set; }
 
-        public Func<string, string, EmbeddedResource, string> VaryCacheKey { get; set; } 
         public void Add(Assembly assembly, string projectSourcePath = null)
         {
             var assemblyName = assembly.GetName().Name;
@@ -67,7 +65,7 @@ namespace EmbeddedResourceVirtualPathProvider
             var resource = GetResourceFromVirtualPath(virtualPath);
             if (resource != null)
             {
-                return VaryCacheKey(virtualPath, base.GetCacheKey(virtualPath), resource);
+                return virtualPath + resource.AssemblyName;
             }
             return base.GetCacheKey(virtualPath);
         }

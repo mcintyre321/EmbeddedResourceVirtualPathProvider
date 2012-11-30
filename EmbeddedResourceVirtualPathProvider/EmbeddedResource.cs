@@ -11,7 +11,7 @@ namespace EmbeddedResourceVirtualPathProvider
     {
         public EmbeddedResource(Assembly assembly, string resourcePath, string projectSourcePath)
         {
-            this.Assembly = assembly;
+            this.AssemblyName = assembly.GetName().Name;
             this.ResourcePath = resourcePath;
             if (!string.IsNullOrWhiteSpace(projectSourcePath))
             {
@@ -30,10 +30,10 @@ namespace EmbeddedResourceVirtualPathProvider
 
         public string ResourcePath { get; private set; }
 
-        public Assembly Assembly { get; set; }
-
         public Func<Stream> GetStream { get; private set; }
         public Func<DateTime, CacheDependency> GetCacheDependency { get; private set; }
+
+        public string AssemblyName { get; private set; }
 
         string GetFileNameFromProjectSourceDirectory(Assembly assembly, string resourcePath, string projectSourcePath)
         {
