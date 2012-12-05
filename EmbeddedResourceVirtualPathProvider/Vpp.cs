@@ -65,7 +65,7 @@ namespace EmbeddedResourceVirtualPathProvider
             var resource = GetResourceFromVirtualPath(virtualPath);
             if (resource != null)
             {
-                return virtualPath + resource.AssemblyName;
+                return (virtualPath + resource.AssemblyName).GetHashCode().ToString();
             }
             return base.GetCacheKey(virtualPath);
         }
