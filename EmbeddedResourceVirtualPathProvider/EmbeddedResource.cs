@@ -12,6 +12,8 @@ namespace EmbeddedResourceVirtualPathProvider
         public EmbeddedResource(Assembly assembly, string resourcePath, string projectSourcePath)
         {
             this.AssemblyName = assembly.GetName().Name;
+            System.IO.FileInfo fileInfo = new System.IO.FileInfo(assembly.Location);
+            AssemblyLastModified = fileInfo.LastWriteTime;
             this.ResourcePath = resourcePath;
             if (!string.IsNullOrWhiteSpace(projectSourcePath))
             {
@@ -27,6 +29,8 @@ namespace EmbeddedResourceVirtualPathProvider
             GetCacheDependency = (utcStart) => new CacheDependency(assembly.Location);
             GetStream = () => assembly.GetManifestResourceStream(resourcePath);
         }
+
+        public DateTime AssemblyLastModified { get; private set; }
 
         public string ResourcePath { get; private set; }
 
