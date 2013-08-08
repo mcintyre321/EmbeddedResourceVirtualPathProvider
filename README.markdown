@@ -1,6 +1,6 @@
 # EmbeddedResourceVirtualPathProvider #
 
-Load your views and assets from references assemblies. To get started, install into your ASP.NET web application via nuget:
+A custom VirtualPathProvider for IIS - load views and assets from EmbeddedResources in referenced assemblies . To get started, install into your ASP.NET web application via nuget:
 
 > Install-Package EmbeddedResourceVirtualPathProvider
 
@@ -22,6 +22,7 @@ Please check out my other projects!
 
 Cheers, Harry
 
+@mcintyre321
 
 MIT Licenced
 
