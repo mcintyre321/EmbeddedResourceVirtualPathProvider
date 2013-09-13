@@ -58,9 +58,10 @@ namespace EmbeddedResourceVirtualPathProvider
             {
 #if DEBUG
                 throw;
-#endif
+#else
                 Logger.LogWarning("Error reading source files", ex);
                 return null;
+#endif
             }
         }
 
