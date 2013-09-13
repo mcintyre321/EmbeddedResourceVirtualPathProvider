@@ -26,11 +26,14 @@ namespace EmbeddedResourceVirtualPathProvider
         public void Add(Assembly assembly, string projectSourcePath = null)
         {
             var assemblyName = assembly.GetName().Name;
+
             foreach (var resourcePath in assembly.GetManifestResourceNames().Where(r => r.StartsWith(assemblyName)))
             {
                 var key = resourcePath.ToUpperInvariant().Substring(assemblyName.Length).TrimStart('.');
+                
                 if (!resources.ContainsKey(key))
                     resources[key] = new List<EmbeddedResource>();
+                
                 resources[key].Insert(0, new EmbeddedResource(assembly, resourcePath, projectSourcePath));
             }
         }
@@ -44,8 +47,10 @@ namespace EmbeddedResourceVirtualPathProvider
         {
             //if (base.FileExists(virtualPath)) return base.GetFile(virtualPath);
             var resource = GetResourceFromVirtualPath(virtualPath);
+
             if (resource != null)
                 return new EmbeddedResourceVirtualFile(virtualPath, resource);
+            
             return base.GetFile(virtualPath);
         }
 
@@ -54,6 +59,7 @@ namespace EmbeddedResourceVirtualPathProvider
             var combineVirtualPaths = base.CombineVirtualPaths(basePath, relativePath);
             return combineVirtualPaths;
         }
+
         public override string GetFileHash(string virtualPath, IEnumerable virtualPathDependencies)
         {
             var fileHash = base.GetFileHash(virtualPath, virtualPathDependencies);
@@ -93,7 +99,17 @@ namespace EmbeddedResourceVirtualPathProvider
                 return resource.GetCacheDependency(utcStart);
             }
 
-            return base.GetCacheDependency(virtualPath, virtualPathDependencies, utcStart);
+            try
+            {
+                // If resource is placed in a second-level directory or deeper, this will throw an HttpException
+                // "Directory '...' does not exist. Failed to start monitoring file changes."
+                return base.GetCacheDependency(virtualPath, virtualPathDependencies, utcStart);
+            }
+            catch (HttpException)
+            {
+                // In such case, null allows to keep working
+                return null;
+            }
         }
 
         private bool ShouldUsePrevious(string virtualPath, EmbeddedResource resource)
@@ -101,7 +117,6 @@ namespace EmbeddedResourceVirtualPathProvider
             return base.FileExists(virtualPath) && UseLocalIfAvailable(resource);
         }
 
-        
         //public override string GetCacheKey(string virtualPath)
         //{
         //    var resource = GetResourceFromVirtualPath(virtualPath);
