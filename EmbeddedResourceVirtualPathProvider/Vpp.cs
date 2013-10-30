@@ -93,7 +93,12 @@ namespace EmbeddedResourceVirtualPathProvider
                 return resource.GetCacheDependency(utcStart);
             }
 
-            return base.GetCacheDependency(virtualPath, virtualPathDependencies, utcStart);
+            if (DirectoryExists(virtualPath) || FileExists(virtualPath))
+            {
+                return base.GetCacheDependency(virtualPath, virtualPathDependencies, utcStart);
+            }
+
+            return null;
         }
 
         private bool ShouldUsePrevious(string virtualPath, EmbeddedResource resource)
