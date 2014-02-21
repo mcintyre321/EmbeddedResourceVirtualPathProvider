@@ -72,7 +72,14 @@ namespace EmbeddedResourceVirtualPathProvider
         
         public EmbeddedResource GetResourceFromVirtualPath(string virtualPath)
         {
-            var cleanedPath = VirtualPathUtility.ToAppRelative(virtualPath).TrimStart('~', '/').Replace('/', '.');
+			var path = VirtualPathUtility.ToAppRelative(virtualPath).TrimStart('~', '/');
+			var index = path.LastIndexOf("/");
+			if (index != -1)
+			{
+				var folder = path.Substring(0, index).Replace("-", "_"); //embedded resources with "-"in their folder names are stored as "_".
+				path = folder + path.Substring(index);
+			}
+            var cleanedPath = path.Replace('/', '.');
             var key = (cleanedPath).ToUpperInvariant();
             if (resources.ContainsKey(key))
             {
