@@ -14,6 +14,8 @@ And set the the files BuildAction as EmbbeddedResource. Make sure your assembly 
 
 By default, all assemblies in the appdomain are scanned. You can restrict this in `App_Start\RegisterVirtualPathProvider.cs` file. You can also map assemblies to their location on disk, so they ca nbe refereshed when you edit the files during development.
 
+There is some help at https://github.com/mcintyre321/EmbeddedResourceVirtualPathProvider/wiki/Help
+
 ## Dynamic Content Routing ##
 
 You can set up rules determining the order to check assemblies for resources, letting you (for example) have different view assemblies for different hostnames.
