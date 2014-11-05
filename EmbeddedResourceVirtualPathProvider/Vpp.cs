@@ -18,10 +18,12 @@ namespace EmbeddedResourceVirtualPathProvider
             Array.ForEach(assemblies, a => Add(a));
             UseResource = er => true;
             UseLocalIfAvailable = resource => true;
+            CacheControl = er => null;
         }
 
         public Func<EmbeddedResource, bool> UseResource { get; set; }
         public Func<EmbeddedResource, bool> UseLocalIfAvailable { get; set; }
+        public Func<EmbeddedResource, EmbeddedResourceCacheControl> CacheControl { get; set; } 
 
         public void Add(Assembly assembly, string projectSourcePath = null)
         {
@@ -45,7 +47,7 @@ namespace EmbeddedResourceVirtualPathProvider
             //if (base.FileExists(virtualPath)) return base.GetFile(virtualPath);
             var resource = GetResourceFromVirtualPath(virtualPath);
             if (resource != null)
-                return new EmbeddedResourceVirtualFile(virtualPath, resource);
+                return new EmbeddedResourceVirtualFile(virtualPath, resource, CacheControl(resource));
             return base.GetFile(virtualPath);
         }
 
