@@ -17,18 +17,20 @@ namespace EmbeddedResourceVirtualPathProvider
             this.ResourcePath = resourcePath;
             if (!string.IsNullOrWhiteSpace(projectSourcePath))
             {
-                var filename = GetFileNameFromProjectSourceDirectory(assembly, resourcePath, projectSourcePath);
+                Filename = GetFileNameFromProjectSourceDirectory(assembly, resourcePath, projectSourcePath);
 
-                if (filename != null) //means that the source file was found, or a copy was in the web apps folders
+                if (Filename != null) //means that the source file was found, or a copy was in the web apps folders
                 {
-                    GetCacheDependency = (utcStart) => new CacheDependency(filename, utcStart);
-                    GetStream = () => File.OpenRead(filename);
+                    GetCacheDependency = (utcStart) => new CacheDependency(Filename, utcStart);
+                    GetStream = () => File.OpenRead(Filename);
                     return;
                 }
             }
             GetCacheDependency = (utcStart) => new CacheDependency(assembly.Location);
             GetStream = () => assembly.GetManifestResourceStream(resourcePath);
         }
+
+        public string Filename { get; private set; }
 
         public DateTime AssemblyLastModified { get; private set; }
 
