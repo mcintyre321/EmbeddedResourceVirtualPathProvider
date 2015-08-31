@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
   <metadata>
     <id>EmbeddedResourceVirtualPathProvider</id>
-    <version>1.1.8</version>
+    <version>$version$</version>
     <authors>Harry McIntyre</authors>
     <owners>Harry McIntyre</owners>
     <projectUrl>https://github.com/mcintyre321/EmbeddedResourceVirtualPathProvider</projectUrl>

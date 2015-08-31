@@ -13,3 +13,5 @@ _ReSharper.*
 *.ReSharper.user
 *.sln.docstates
 *.user
+/nuget/lib/net40/EmbeddedResourceVirtualPathProvider.dll
+/nuget/lib/net40/EmbeddedResourceVirtualPathProvider.pdb
