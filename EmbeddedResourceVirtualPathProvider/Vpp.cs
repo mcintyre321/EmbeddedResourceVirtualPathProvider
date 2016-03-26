@@ -23,7 +23,8 @@ namespace EmbeddedResourceVirtualPathProvider
 
         public Func<EmbeddedResource, bool> UseResource { get; set; }
         public Func<EmbeddedResource, bool> UseLocalIfAvailable { get; set; }
-        public Func<EmbeddedResource, EmbeddedResourceCacheControl> CacheControl { get; set; } 
+        public Func<EmbeddedResource, EmbeddedResourceCacheControl> CacheControl { get; set; }
+        public IDictionary<string, List<EmbeddedResource>>  Resources { get { return resources; } }
 
         public void Add(Assembly assembly, string projectSourcePath = null)
         {
