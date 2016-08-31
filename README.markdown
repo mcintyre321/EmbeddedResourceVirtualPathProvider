@@ -4,7 +4,7 @@ A custom VirtualPathProvider for IIS - load views and assets from Embedded Resou
 
 > Install-Package EmbeddedResourceVirtualPathProvider
 
-This will add some code into `App_Code` registering the provider.
+This will add some code into `App_Start` registering the provider.
 
 Move views and assets into other assemblies, maintaining folder structure. e.g.
 
@@ -12,7 +12,7 @@ Move views and assets into other assemblies, maintaining folder structure. e.g.
 
 And set the the files BuildAction as EmbbeddedResource. Make sure your assembly is referenced, and you're done!
 
-By default, all assemblies in the appdomain are scanned. You can restrict this in `App_Start\RegisterVirtualPathProvider.cs` file. You can also map assemblies to their location on disk, so they ca nbe refereshed when you edit the files during development.
+By default, all assemblies in the appdomain are scanned. You can restrict this in `App_Start\EmbeddedResourceVirtualPathProviderStart.cs` file. You can also map assemblies to their location on disk, so they ca nbe refereshed when you edit the files during development.
 
 There is some help at https://github.com/mcintyre321/EmbeddedResourceVirtualPathProvider/wiki/Help
 
