@@ -61,7 +61,7 @@
     <Content Include="Default.aspx" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="App_Code\RegisterVirtualPathProvider.cs" />
+    <Compile Include="App_Start\EmbeddedResourceVirtualPathProviderStart.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>

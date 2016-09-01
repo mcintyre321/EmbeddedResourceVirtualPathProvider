@@ -1,10 +1,13 @@
 ﻿using System.Reflection;
 using System.Linq;
-namespace $rootnamespace$.App_Code
+
+[assembly: WebActivatorEx.PostApplicationStartMethod(typeof($rootnamespace$.EmbeddedResourceVirtualPathProviderStart), "Start")]
+
+namespace $rootnamespace$
 {
-    public class RegisterVirtualPathProvider
+    public static class EmbeddedResourceVirtualPathProviderStart
     {
-        public static void AppInitialize()
+        public static void Start()
         {
 			//By default, we scan all non system assemblies for embedded resources
             var assemblies = System.Web.Compilation.BuildManager.GetReferencedAssemblies()

@@ -12,7 +12,7 @@ namespace TestWebProject
 
         protected void Application_Start(object sender, EventArgs e)
         {
-
+            EmbeddedResourceVirtualPathProviderStart.Start();
         }
 
         protected void Session_Start(object sender, EventArgs e)
