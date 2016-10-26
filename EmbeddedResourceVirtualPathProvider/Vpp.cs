@@ -103,6 +103,18 @@ namespace EmbeddedResourceVirtualPathProvider
                 return resource.GetCacheDependency(utcStart);
             }
 
+            var virtualDependencies = virtualPathDependencies.OfType<string>()
+                .Select(x => new {path = x, resource = GetResourceFromVirtualPath(x)})
+                .Where(x => x.resource != null)
+                .ToList();
+
+            if (virtualDependencies.Any())
+            {
+                virtualPathDependencies = virtualDependencies.OfType<string>()
+                    .Except(virtualDependencies.Select(v => v.path))
+                    .Concat(virtualDependencies.Select(v => $"/bin/{v.resource.AssemblyName}").Distinct());
+            }
+
             if (DirectoryExists(virtualPath) || FileExists(virtualPath))
             {
                 return base.GetCacheDependency(virtualPath, virtualPathDependencies, utcStart);
