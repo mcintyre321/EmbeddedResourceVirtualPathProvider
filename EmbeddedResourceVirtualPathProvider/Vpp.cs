@@ -72,7 +72,13 @@ namespace EmbeddedResourceVirtualPathProvider
             }
             return base.GetCacheKey(virtualPath);
         }
-        
+
+        public bool IsInt(string c)
+        {
+            int outChar;
+            return int.TryParse(c, out outChar);
+        }
+
         public EmbeddedResource GetResourceFromVirtualPath(string virtualPath)
         {
             var path = VirtualPathUtility.ToAppRelative(virtualPath).TrimStart('~', '/');
@@ -86,11 +92,25 @@ namespace EmbeddedResourceVirtualPathProvider
                 {
                     var resultFolder = item;
                     resultFolder = resultFolder.Replace("-", "_"); //replace - with underscore
-                    resultFolder = resultFolder.Replace(".", "._"); //resources add a _ against an existing dot
-                    var startingCharacter = resultFolder.Substring(0, 1);
-                    int outChar;
-                    if (int.TryParse(startingCharacter, out outChar))
-                        resultFolder = "_" + resultFolder;
+
+                    var outputFolder = "";
+                    var outs = "";
+                    for (var i = 0; i < resultFolder.Length; i++)
+                    {
+                        if (i == 0 && IsInt(resultFolder[i].ToString())) //if the first character is a int, then prefix
+                            outs += "_";
+
+                        outs += resultFolder[i];
+
+                        //if any character follows a dot with a int, prefix with an underscore
+                        if (resultFolder[i] == '.')
+                        {
+                            //get the next one
+                            if (IsInt(resultFolder.Substring(i + 1, 1)))
+                                outs += "_";
+                        }
+                    }
+                    resultFolder = outs;
                     result.Add(resultFolder);
                 }
                 folder = string.Join(".", result);
