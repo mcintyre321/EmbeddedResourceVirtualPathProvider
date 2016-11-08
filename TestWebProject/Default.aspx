@@ -8,7 +8,7 @@
     <script src="/alert.js" type="text/javascript"></script>
     <script src="/alert2.js" type="text/javascript"></script>
     <script src="/Scripts/alert.3.js" type="text/javascript"></script>
-
+    <script src="/3rd3Party/3select2-3.4.5/select2.js" type="text/javascript"></script>
 </head>
 <body>
     <form id="form1" runat="server">

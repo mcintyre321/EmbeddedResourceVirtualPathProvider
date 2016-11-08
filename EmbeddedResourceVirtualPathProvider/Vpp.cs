@@ -79,7 +79,22 @@ namespace EmbeddedResourceVirtualPathProvider
             var index = path.LastIndexOf("/");
             if (index != -1)
             {
-                var folder = path.Substring(0, index).Replace("-", "_"); //embedded resources with "-"in their folder names are stored as "_".
+                var folder = path.Substring(0, index); //embedded resources with "-"in their folder names are stored as "_".
+                var folderItems = folder.Split('/');
+                List<string> result = new List<string>();
+                foreach (var item in folderItems)
+                {
+                    var resultFolder = item;
+                    resultFolder = resultFolder.Replace("-", "_"); //replace - with underscore
+                    resultFolder = resultFolder.Replace(".", "._"); //resources add a _ against an existing dot
+                    var startingCharacter = resultFolder.Substring(0, 1);
+                    int outChar;
+                    if (int.TryParse(startingCharacter, out outChar))
+                        resultFolder = "_" + resultFolder;
+                    result.Add(resultFolder);
+                }
+                folder = string.Join(".", result);
+
                 path = folder + path.Substring(index);
             }
             var cleanedPath = path.Replace('/', '.');

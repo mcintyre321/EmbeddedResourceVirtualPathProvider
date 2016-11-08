@@ -1,0 +1,1 @@
+﻿alert("3rd3Party/3select2-3.4.5/select2.js - works with more complex path")
