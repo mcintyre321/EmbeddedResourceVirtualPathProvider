@@ -72,14 +72,49 @@ namespace EmbeddedResourceVirtualPathProvider
             }
             return base.GetCacheKey(virtualPath);
         }
-        
+
+        public bool IsInt(string c)
+        {
+            int outChar;
+            return int.TryParse(c, out outChar);
+        }
+
         public EmbeddedResource GetResourceFromVirtualPath(string virtualPath)
         {
             var path = VirtualPathUtility.ToAppRelative(virtualPath).TrimStart('~', '/');
             var index = path.LastIndexOf("/");
             if (index != -1)
             {
-                var folder = path.Substring(0, index).Replace("-", "_"); //embedded resources with "-"in their folder names are stored as "_".
+                var folder = path.Substring(0, index); //embedded resources with "-"in their folder names are stored as "_".
+                var folderItems = folder.Split('/');
+                List<string> result = new List<string>();
+                foreach (var item in folderItems)
+                {
+                    var resultFolder = item;
+                    resultFolder = resultFolder.Replace("-", "_"); //replace - with underscore
+
+                    var outputFolder = "";
+                    var outs = "";
+                    for (var i = 0; i < resultFolder.Length; i++)
+                    {
+                        if (i == 0 && IsInt(resultFolder[i].ToString())) //if the first character is a int, then prefix
+                            outs += "_";
+
+                        outs += resultFolder[i];
+
+                        //if any character follows a dot with a int, prefix with an underscore
+                        if (resultFolder[i] == '.')
+                        {
+                            //get the next one
+                            if (IsInt(resultFolder.Substring(i + 1, 1)))
+                                outs += "_";
+                        }
+                    }
+                    resultFolder = outs;
+                    result.Add(resultFolder);
+                }
+                folder = string.Join(".", result);
+
                 path = folder + path.Substring(index);
             }
             var cleanedPath = path.Replace('/', '.');

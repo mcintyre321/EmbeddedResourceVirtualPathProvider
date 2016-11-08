@@ -1,0 +1,1 @@
+﻿alert("3rd3Party/hammer.js-1.0.10/hammer.js - works with more complex path")

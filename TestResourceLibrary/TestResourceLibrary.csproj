@@ -52,6 +52,12 @@
   <ItemGroup>
     <EmbeddedResource Include="Scripts\alert.3.js" />
   </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="3rd3Party\3select2-3.4.5\select2.js" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="3rd3Party\hammer.js-1.0.10\hammer.js" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
