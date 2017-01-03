@@ -25,5 +25,6 @@ namespace EmbeddedResourceVirtualPathProvider
             }
             return embedded.GetStream();
         }
+
     }
 }
