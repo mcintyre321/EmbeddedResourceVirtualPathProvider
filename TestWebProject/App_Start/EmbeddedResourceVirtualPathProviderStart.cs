@@ -16,10 +16,7 @@ namespace TestWebProject
 
 			var vpp = new EmbeddedResourceVirtualPathProvider.Vpp(assemblies.ToArray());
 
-			System.Web.Hosting.HostingEnvironment.RegisterVirtualPathProvider(vpp);
-
-			var test = vpp.GetDirectory("~/scripts");
-           
+			System.Web.Hosting.HostingEnvironment.RegisterVirtualPathProvider(vpp);           
         }
     }
 }

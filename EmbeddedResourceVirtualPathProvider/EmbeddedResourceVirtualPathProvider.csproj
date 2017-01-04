@@ -43,6 +43,7 @@
   <ItemGroup>
     <Compile Include="EmbeddedResource.cs" />
     <Compile Include="EmbeddedResourceCacheControl.cs" />
+    <Compile Include="EmbeddedResourcePath.cs" />
     <Compile Include="EmbeddedResourceVirtualDirectory.cs" />
     <Compile Include="EmbeddedResourceVirtualFile.cs" />
     <Compile Include="Logger.cs" />

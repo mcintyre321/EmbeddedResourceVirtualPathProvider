@@ -50,7 +50,7 @@
     <EmbeddedResource Include="alert2.js" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Scripts\alert.js" />
+    <EmbeddedResource Include="Scripts\alert-1.12.34567.min.js" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="3rd3Party\3select2-3.4.5\select2.js" />

@@ -14,35 +14,52 @@ namespace EmbeddedResourceVirtualPathProvider
     {
 		readonly Dictionary<string, Dictionary<string, List<EmbeddedResource>>> resources = new Dictionary<string, Dictionary<string, List<EmbeddedResource>>>();
 
-		Regex pathPattern = new Regex($@"^(?<directory>.*)?\.(?<filename>[^.]*\.[^.]*)$", RegexOptions.Compiled);
+		Regex pathPattern = new Regex(@"^(?<directory>.*?)?\.(?<filename>[^.]*([\.-](?<version>[0-9]{1,5}\.[0-9]{1,5}\.[0-9]{1,5})(\.min)?)?\.[^.]*)$", RegexOptions.Compiled | RegexOptions.IgnoreCase);
 
 		public Vpp(params Assembly[] assemblies)
-        {
-            Array.ForEach(assemblies, a => Add(a));
+        {            
             UseResource = er => true;
             UseLocalIfAvailable = resource => true;
             CacheControl = er => null;
-        }
+			GetPath = resourcePath => DefaultPathFunction(resourcePath);
+
+			Array.ForEach(assemblies, a => Add(a));
+		}
 
         public Func<EmbeddedResource, bool> UseResource { get; set; }
         public Func<EmbeddedResource, bool> UseLocalIfAvailable { get; set; }
         public Func<EmbeddedResource, EmbeddedResourceCacheControl> CacheControl { get; set; }
-        public Dictionary<string, Dictionary<string, List<EmbeddedResource>>> Resources { get { return resources; } }
+		public Func<string, EmbeddedResourcePath> GetPath { get; set; }
+
+		public Dictionary<string, Dictionary<string, List<EmbeddedResource>>> Resources { get { return resources; } }
+
+		private EmbeddedResourcePath DefaultPathFunction(string resourcePath)
+		{
+			Match match = pathPattern.Match(resourcePath);
+			if (match.Success)
+			{
+				return new EmbeddedResourcePath()
+				{
+					Directory = match.Groups["directory"].Value,
+					Filename = match.Groups["filename"].Value
+				};
+			}
+
+			return null;
+		}
 
         public void Add(Assembly assembly, string projectSourcePath = null)
         {
 			var assemblyName = assembly.GetName().Name;
-			Regex resourcePattern = new Regex($@"^(?<assembly>{assemblyName})(\.(?<directory>.*))?\.(?<filename>[^.]*\.[^.]*)$", RegexOptions.Compiled);
 			
             foreach (var resourcePath in assembly.GetManifestResourceNames().Where(r => r.StartsWith(assemblyName)))
             {
-				Match match = resourcePattern.Match(resourcePath);
-				if (match.Success)
+				EmbeddedResourcePath path = GetPath(resourcePath.Substring(assemblyName.Length + 1));
+				if (path != null)
 				{
-					//var key = resourcePath.ToUpperInvariant().Substring(assemblyName.Length).TrimStart('.');
 					Dictionary<string, List<EmbeddedResource>> directoryResources;
-					string directoryName = match.Groups["directory"].Value.ToUpperInvariant();
-					string filename = match.Groups["filename"].Value.ToUpperInvariant();
+					string directoryName = path.Directory.ToUpperInvariant();
+					string filename = path.Filename.ToUpperInvariant();
 
 					if (!resources.TryGetValue(directoryName, out directoryResources))
 					{
