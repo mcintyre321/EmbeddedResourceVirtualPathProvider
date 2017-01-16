@@ -7,7 +7,7 @@
     <title></title>
     <script src="/alert.js" type="text/javascript"></script>
     <script src="/alert2.js" type="text/javascript"></script>
-    <script src="/Scripts/alert.3.js" type="text/javascript"></script>
+    <script src="/Scripts/alert-1.12.34567.min.js" type="text/javascript"></script>
     <script src="/3rd3Party/3select2-3.4.5/select2.js" type="text/javascript"></script>
     <script src="/3rd3Party/hammer.js-1.0.10/hammer.js" type="text/javascript"></script>
 </head>

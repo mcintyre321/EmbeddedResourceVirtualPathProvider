@@ -6,35 +6,73 @@ using System.Web;
 using System.Web.Caching;
 using System.Web.Hosting;
 using System.Linq;
+using System.Text.RegularExpressions;
 
 namespace EmbeddedResourceVirtualPathProvider
 {
     public class Vpp : VirtualPathProvider, IEnumerable
     {
-        readonly IDictionary<string, List<EmbeddedResource>> resources = new Dictionary<string, List<EmbeddedResource>>();
+		readonly Dictionary<string, Dictionary<string, List<EmbeddedResource>>> resources = new Dictionary<string, Dictionary<string, List<EmbeddedResource>>>();
 
-        public Vpp(params Assembly[] assemblies)
-        {
-            Array.ForEach(assemblies, a => Add(a));
+		Regex pathPattern = new Regex(@"^(?<directory>.*?)?\.(?<filename>[^.]*([\.-](?<version>[0-9]{1,5}\.[0-9]{1,5}\.[0-9]{1,5})(\.min)?)?\.[^.]*)$", RegexOptions.Compiled | RegexOptions.IgnoreCase);
+
+		public Vpp(params Assembly[] assemblies)
+        {            
             UseResource = er => true;
             UseLocalIfAvailable = resource => true;
             CacheControl = er => null;
-        }
+			GetPath = resourcePath => DefaultPathFunction(resourcePath);
+
+			Array.ForEach(assemblies, a => Add(a));
+		}
 
         public Func<EmbeddedResource, bool> UseResource { get; set; }
         public Func<EmbeddedResource, bool> UseLocalIfAvailable { get; set; }
         public Func<EmbeddedResource, EmbeddedResourceCacheControl> CacheControl { get; set; }
-        public IDictionary<string, List<EmbeddedResource>>  Resources { get { return resources; } }
+		public Func<string, EmbeddedResourcePath> GetPath { get; set; }
+
+		public Dictionary<string, Dictionary<string, List<EmbeddedResource>>> Resources { get { return resources; } }
+
+		private EmbeddedResourcePath DefaultPathFunction(string resourcePath)
+		{
+			Match match = pathPattern.Match(resourcePath);
+			if (match.Success)
+			{
+				return new EmbeddedResourcePath()
+				{
+					Directory = match.Groups["directory"].Value,
+					Filename = match.Groups["filename"].Value
+				};
+			}
+
+			return null;
+		}
 
         public void Add(Assembly assembly, string projectSourcePath = null)
         {
-            var assemblyName = assembly.GetName().Name;
+			var assemblyName = assembly.GetName().Name;
+			
             foreach (var resourcePath in assembly.GetManifestResourceNames().Where(r => r.StartsWith(assemblyName)))
             {
-                var key = resourcePath.ToUpperInvariant().Substring(assemblyName.Length).TrimStart('.');
-                if (!resources.ContainsKey(key))
-                    resources[key] = new List<EmbeddedResource>();
-                resources[key].Insert(0, new EmbeddedResource(assembly, resourcePath, projectSourcePath));
+				EmbeddedResourcePath path = GetPath(resourcePath.Substring(assemblyName.Length + 1));
+				if (path != null)
+				{
+					Dictionary<string, List<EmbeddedResource>> directoryResources;
+					string directoryName = path.Directory.ToUpperInvariant();
+					string filename = path.Filename.ToUpperInvariant();
+
+					if (!resources.TryGetValue(directoryName, out directoryResources))
+					{
+						directoryResources = new Dictionary<string, List<EmbeddedResource>>();
+						resources.Add(directoryName, directoryResources);
+					}
+
+					if (!directoryResources.ContainsKey(filename))
+					{
+						directoryResources[filename] = new List<EmbeddedResource>();
+					}
+					directoryResources[filename].Insert(0, new EmbeddedResource(assembly, resourcePath, projectSourcePath));
+				}
             }
         }
  
@@ -43,7 +81,32 @@ namespace EmbeddedResourceVirtualPathProvider
             return (base.FileExists(virtualPath) || GetResourceFromVirtualPath(virtualPath) != null);
         }
 
-        public override VirtualFile GetFile(string virtualPath)
+		public override VirtualDirectory GetDirectory(string virtualDir)
+		{
+			string key = virtualDir.Replace('/', '.').TrimStart('~', '.').TrimEnd('.').ToUpperInvariant();
+
+			Dictionary<string, List<EmbeddedResource>> directoryResources;
+			
+			if (resources.TryGetValue(key, out directoryResources))
+			{
+				return new EmbeddedResourceVirtualDirectory(virtualDir, directoryResources, CacheControl);
+			}
+
+			return base.GetDirectory(virtualDir);
+		}
+
+		public override bool DirectoryExists(string virtualDir)
+		{
+			string key = virtualDir.Replace('/', '.').TrimStart('~', '.').TrimEnd('.').ToUpperInvariant();
+			if (resources.ContainsKey(key))
+			{
+				return true;
+			}
+
+			return base.DirectoryExists(virtualDir);
+		}
+
+		public override VirtualFile GetFile(string virtualPath)
         {
             //if (base.FileExists(virtualPath)) return base.GetFile(virtualPath);
             var resource = GetResourceFromVirtualPath(virtualPath);
@@ -57,6 +120,7 @@ namespace EmbeddedResourceVirtualPathProvider
             var combineVirtualPaths = base.CombineVirtualPaths(basePath, relativePath);
             return combineVirtualPaths;
         }
+
         public override string GetFileHash(string virtualPath, IEnumerable virtualPathDependencies)
         {
             var fileHash = base.GetFileHash(virtualPath, virtualPathDependencies);
@@ -117,16 +181,26 @@ namespace EmbeddedResourceVirtualPathProvider
 
                 path = folder + path.Substring(index);
             }
-            var cleanedPath = path.Replace('/', '.');
-            var key = (cleanedPath).ToUpperInvariant();
-            if (resources.ContainsKey(key))
-            {
-                var resource = resources[key].FirstOrDefault(UseResource);
-                if (resource != null && !ShouldUsePrevious(virtualPath, resource))
-                {
-                    return resource;
-                }
-            }
+
+			Match pathMatch = pathPattern.Match(path.Replace('/', '.').ToUpperInvariant());
+			if (pathMatch.Success)
+			{
+				string directory = pathMatch.Groups["directory"].Value;
+				string filename = pathMatch.Groups["filename"].Value;
+
+				if (resources.ContainsKey(directory))
+				{
+					var directoryResources = resources[directory];
+					if (directoryResources.ContainsKey(filename))
+					{
+						var resource = directoryResources[filename].FirstOrDefault(UseResource);
+						if (resource != null && !ShouldUsePrevious(virtualPath, resource))
+						{
+							return resource;
+						}
+					}
+				}
+			}
             return null;
         }
 
