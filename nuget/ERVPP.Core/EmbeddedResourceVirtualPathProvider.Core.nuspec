@@ -1,16 +1,13 @@
 <?xml version="1.0"?>
 <package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
   <metadata>
-    <id>EmbeddedResourceVirtualPathProvider</id>
+    <id>EmbeddedResourceVirtualPathProvider.Core</id>
     <version>$version$</version>
     <authors>Harry McIntyre</authors>
     <owners>Harry McIntyre</owners>
     <projectUrl>https://github.com/mcintyre321/EmbeddedResourceVirtualPathProvider</projectUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
-    <description>Enables ASP to read content files (e.g. .css, .js, .aspx) stored as embedded resources in referenced assemblies</description>
+    <description>Enables ASP to read content files (e.g. .css, .js, .aspx) stored as embedded resources in referenced assemblies. This core package contains only an assembly, see also EmbeddedResourceVirtualPathProvider with bootstrap code for seamless integration into your app.</description>
     <tags>asp.net portable embedded resources virtualpathprovider</tags>
-	<dependencies>
-	  <dependency id="WebActivatorEx" version="2.0.3" />
-	</dependencies>
   </metadata>
 </package>

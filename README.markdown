@@ -16,6 +16,25 @@ By default, all assemblies in the appdomain are scanned. You can restrict this i
 
 There is some help at https://github.com/mcintyre321/EmbeddedResourceVirtualPathProvider/wiki/Help
 
+
+## Install Actions
+On installing the package we'll get:
+
+* `App_Start/EmbeddedResourceVirtualPathProviderStart.cs` file created - it contains provider registration via WebActivator
+* section `system.webServer`/`handlers` in web.config will be updated with:
+
+```
+<add verb="GET" path="*.js" name="Static for js" type="System.Web.StaticFileHandler" />
+<add verb="GET" path="*.css" name="Static for css" type="System.Web.StaticFileHandler" />
+<add verb="GET" path="*.png" name="Static for png" type="System.Web.StaticFileHandler" />
+<add verb="GET" path="*.jpg" name="Static for jpg" type="System.Web.StaticFileHandler" />
+```
+
+* WebActivatorEx package will be installed
+
+If you don't want all these side effects then use package `EmbeddedResourceVirtualPathProvider.Core` which contains only an assembly.
+
+
 ## Dynamic Content Routing ##
 
 You can set up rules determining the order to check assemblies for resources, letting you (for example) have different view assemblies for different hostnames.
